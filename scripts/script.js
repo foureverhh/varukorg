@@ -1,7 +1,4 @@
 $(document).ready(function () {
-
-   
-  
     $clear = $('#clear');
     $array=JSON.parse(localStorage.getItem("myList"));
     $add = $('.add');
@@ -33,7 +30,7 @@ $(document).ready(function () {
                             "<p class='name'>" + response.products[i].name +
                             "<p class='price'>" + response.products[i].price + " KR</p>" +
                             "<div class='amount'>"+
-                                "<button class='add' onclick='add(this)'>+</button>"+"<input type='text'id='num' placeholder='1'></input>"+"<button class='minus' onclick='minus(this)'>-</button>" +
+                                "<button class='add' onclick='addNum(this)'>+</button>"+"<input type='text'id='num' placeholder='0'></input>"+"<button class='minus' onclick='minusNum(this)'>-</button>" +
                             "</div>"+
                         "</div> ";
             }
@@ -61,12 +58,24 @@ $(document).ready(function () {
         $('#myList').empty();
         $array = [];
     });
-
-  
-
+    
+    
 });
+//Make + button rise the number
+function addNum(obj){
+    let value = $(obj).next().val();
+    value++;
+    $(obj).next().val(value);
+}
 
-
+//Make - button lower the number
+function minusNum(obj){
+    let value = $(obj).prev().val();
+    if(value>0){
+        value--;
+    }
+    $(obj).prev().val(value);
+}
 
 /*
         
