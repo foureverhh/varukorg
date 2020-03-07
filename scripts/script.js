@@ -29,10 +29,13 @@ $(document).ready(function () {
 
         for(let i = 0; i< response.products.length; i++) {
         $divcontent += "<div class='items'>" + 
-                        "<img src=" + response.products[i].image + ">" + 
-                        "<p class='name'>" + response.products[i].name +
-                        "<p class='price'>" + response.products[i].price + " KR</p>" +
-                        "<button class='add'>add</button>" + "</div> ";
+                            "<img src=" + response.products[i].image + ">" + 
+                            "<p class='name'>" + response.products[i].name +
+                            "<p class='price'>" + response.products[i].price + " KR</p>" +
+                            "<div class='amount'>"+
+                                "<button class='add' onclick='add(this)'>+</button>"+"<input type='text'id='num' placeholder='1'></input>"+"<button class='minus' onclick='minus(this)'>-</button>" +
+                            "</div>"+
+                        "</div> ";
             }
         $("#products").html($divcontent);
         

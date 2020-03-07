@@ -1,14 +1,14 @@
 {   
     "products": [
         {"name": "name01", "price": "31","image":"img/img01.jpg" },
-        {"name": "name02", "price": "32","image":"img/img01.jpg" },
-        {"name": "name03", "price": "33","image":"img/img01.jpg" },
-        {"name": "name04", "price": "34","image":"img/img01.jpg" },
-        {"name": "name05", "price": "35","image":"img/img01.jpg" },
-        {"name": "name06", "price": "36","image":"img/img01.jpg" },
-        {"name": "name07", "price": "37","image":"img/img01.jpg" },
-        {"name": "name08", "price": "38","image":"img/img01.jpg" },
-        {"name": "name09", "price": "39","image":"img/img01.jpg" },
-        {"name": "name10", "price": "40","image":"img/img01.jpg" }
+        {"name": "name02", "price": "32","image":"img/img02.jpg" },
+        {"name": "name03", "price": "33","image":"img/img03.jpg" },
+        {"name": "name04", "price": "34","image":"img/img04.jpg" },
+        {"name": "name05", "price": "35","image":"img/img05.jpg" },
+        {"name": "name06", "price": "36","image":"img/img06.jpg" },
+        {"name": "name07", "price": "37","image":"img/img07.jpg" },
+        {"name": "name08", "price": "38","image":"img/img08.jpg" },
+        {"name": "name09", "price": "39","image":"img/img09.jpg" },
+        {"name": "name10", "price": "40","image":"img/img10.jpg" }
     ]
 }
