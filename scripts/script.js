@@ -1,3 +1,5 @@
+let $itemInCart;
+
 $(document).ready(function () {
     $clear = $('#clear');
     $array=JSON.parse(localStorage.getItem("myList"));
@@ -30,7 +32,7 @@ $(document).ready(function () {
                             "<p class='name'>" + response.products[i].name +
                             "<p class='price'>" + response.products[i].price + " KR</p>" +
                             "<div class='amount'>"+
-                                "<button class='add' onclick='addNum(this)'>+</button>"+"<input type='text'id='num' placeholder='0'></input>"+"<button class='minus' onclick='minusNum(this)'>-</button>" +
+                                "<button class='add' onclick='addNum(this)'>+</button>"+"<input type='text' id='num' placeholder='0'></input>"+"<button class='minus' onclick='minusNum(this)'>-</button>" +
                             "</div>"+
                         "</div> ";
             }
@@ -59,21 +61,47 @@ $(document).ready(function () {
         $array = [];
     });
     
-    
 });
 //Make + button rise the number
-function addNum(obj){
-    let value = $(obj).next().val();
+function addNum(obj) {
+    let $cartlist = $('#myList');
+    let value = $(obj).next().val();    
     value++;
+    
+    if(value==1){
+        $(obj).parents('div[class=items]').attr('id','p1');
+        $itemInCart = $(obj).parents('div[class=items]').clone(true);
+        $itemInCart.attr('id','p1Cart');
+        $cartlist.append($itemInCart);
+    }
+
     $(obj).next().val(value);
+    $itemInCart.find('input#num').val(value);
+    
+    console.log($itemInCart.find('input#num').val()+', '+$itemInCart.find('input#num').attr('id') + ',' +value);
+    
+   
 }
 
 //Make - button lower the number
 function minusNum(obj){
     let value = $(obj).prev().val();
-    if(value>0){
+    let pIdCart;
+    if(value > 0){
+        let pId = $(obj).parents('div[class=items]').attr('id');
+        pIdCart = pId + 'Cart';
         value--;
+        console.log(pIdCart + $('div#'+pIdCart).attr('id'));
+        $('div#'+pIdCart).find('input#num').val(value);
     }
+
+    if(value == 0 ){
+        $('div#'+pIdCart).remove();
+    }
+   /*  if(value=0){
+
+    } */
+ 
     $(obj).prev().val(value);
 }
 

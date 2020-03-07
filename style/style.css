@@ -89,4 +89,10 @@
         height: 70%;
     }
 
-    
+    .orderControll {
+        display: flex;
+        justify-content: space-around;
+    }
+    .orderControll button {
+        width: 30%;
+    }
