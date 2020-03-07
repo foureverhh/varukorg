@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>localstorageöv</title>
+</head>
+
+<body class="text-center">
+<div class="container">
+    <h3>Övning</h3>
+    <h1>Ange dina favoritspråk</h1>
+    <input id="input" type="text"> <button id="button">add</button>
+    <ul id="list" class="list-group"></ul>
+</div>
+
+    <button id="clear">Clear</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        
+        $(document).ready(function () {
+
+            $button = $('#button');
+            $clear = $('#clear');
+            $array=JSON.parse(localStorage.getItem("myList"));
+
+            if ($array==null)
+                    $array = [];
+            
+            for(let i=0; i<$array.length; i++){
+                    $element= JSON.parse(localStorage.getItem("myList"))[i].name;
+                    $('#list').append("<li class='list-group-item'>" + $element + "</li>");
+                }
+
+
+            $button.click(function(){
+                //let $input = $("#input").val();
+                //if ($input !=""){
+                    $('#list').append("<li class='list-group-item'>" + "variabel namn" /*$input*/ + "</li>");
+                    $array.push({name: "variabelnam", price: "variabel pris"});
+                    //$('#input').val('');
+                    localStorage.setItem("myList", JSON.stringify($array));
+                //}
+
+            });
+
+
+            $clear.click(function(){
+                localStorage.clear();
+                $('#list').empty();
+                $array = [];
+            });
+
+        })
+
+
+        
+
+
+
+    
+    </script>
+</body>
+
+
+</html>

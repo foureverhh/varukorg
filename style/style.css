@@ -1,0 +1,44 @@
+*{
+    box-sizing: border-box;
+    }
+
+
+    #container {
+        width: 960px;
+    }
+
+    #header {
+        border-style: solid;
+        height: 50px;
+    }
+
+    #footer {
+        border-style: solid;
+        height: 50px;
+    }
+
+    #products {  
+        text-align: center;  
+        border-style: solid;    
+    }
+  
+
+    .items {
+        background-color: aqua;
+        width: 135px;
+        display: inline-block;
+        margin: 3px;
+    }
+
+    #cart {           
+        border-style: solid;  
+    }
+
+    .items p{
+        margin-block-start: 0px;
+        margin-block-end: 5px;
+    }
+
+    .price {
+        font-weight: bold;
+    }
