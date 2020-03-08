@@ -27,7 +27,7 @@ $(document).ready(function () {
         let $divcontent="";
 
         for(let i = 0; i< response.products.length; i++) {
-        $divcontent += "<div class='items'>" + 
+        $divcontent += "<div class='items'"+"id=p"+(i+1)+">" + 
                             "<img src=" + response.products[i].image + ">" + 
                             "<p class='name'>" + response.products[i].name +
                             "<p class='price'>" + response.products[i].price + " KR</p>" +
@@ -69,9 +69,10 @@ function addNum(obj) {
     value++;
     
     if(value==1){
-        $(obj).parents('div[class=items]').attr('id','p1');
+  /*       $(obj).parents('div[class=items]').attr('id','p1'); */
         $itemInCart = $(obj).parents('div[class=items]').clone(true);
-        $itemInCart.attr('id','p1Cart');
+        let idCart = $(obj).parents('div[class=items]').attr('id')+'Cart';
+        $itemInCart.attr('id',idCart);
         $cartlist.append($itemInCart);
     }
 
@@ -91,7 +92,7 @@ function minusNum(obj){
         let pId = $(obj).parents('div[class=items]').attr('id');
         pIdCart = pId + 'Cart';
         value--;
-        console.log(pIdCart + $('div#'+pIdCart).attr('id'));
+        console.log(pIdCart + " , " +$('div#'+pIdCart).attr('id'));
         $('div#'+pIdCart).find('input#num').val(value);
     }
 
