@@ -36,7 +36,9 @@ $(document).ready(function () {
                                 "<p class='price'>" + response.products[i].price + "KR</p>" +
                             "</div>"+
                             "<div class='amount'>"+
-                                "<button class='add' onclick='addNum(this)'>+</button>"+"<input type='text' id='num' placeholder='0'></input>"+"<button class='minus' onclick='minusNum(this)'>-</button>" +
+                                "<button class='add' onclick='addNum(this)'>+</button>"+
+                                "<input type='text' id='num' placeholder='0'></input>"+
+                                "<button class='minus' onclick='minusNum(this)'>-</button>" +
                             "</div>"+
                         "</div> ";
             }
@@ -74,13 +76,18 @@ function addNum(obj) {
     
     if(value==1) {
         $itemInCart = $(obj).parents('div[class=items]').clone(true);
+        
         $itemInCart.attr('id',idCart).attr('class','itemsCart');
+        //Add onclick property
+        $itemInCart.find("button:first").attr('onclick','addCartNum(this)');
+        $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
         $cartlist.append($itemInCart);
     }
-
+    
     $(obj).next().val(value);
     $itemInCart = $('div#'+idCart);
     $itemInCart.find('input#num').val(value); 
+    showSumma();
     //console.log($itemInCart.find('input#num').val()+', '+$itemInCart.find('input#num').attr('id') + ',' +value,+ ',' + idCart);  
 }
 
@@ -101,8 +108,50 @@ function minusNum(obj){
     }
  
     $(obj).prev().val(value);
+    showSumma();
 }
 
+function addCartNum(obj) {
+    let value = $(obj).next().val();
+    value++;
+    $(obj).next().val(value);
+    let idCart = $(obj).parents('div[class=itemsCart]').attr("id");
+    let end = idCart.lastIndexOf('C');
+    let id = idCart.substr(0,end);
+    $('div#'+id).find('input#num').val(value);
+    showSumma();
+}
+
+function minusCartNum(obj) {
+    let value = $(obj).prev().val();
+    if(value > 0){
+        value--;
+    }
+    $(obj).prev().val(value);
+    if(value == 0){
+        $(obj).parents('div[class=itemsCart]').remove();  
+    }
+    let idCart = $(obj).parents('div[class=itemsCart]').attr("id");
+    let end = idCart.lastIndexOf('C');
+    let id = idCart.substr(0,end);
+    $('div#'+id).find('input#num').val(value);
+    showSumma();
+}
+
+function showSumma (){
+    let sum = 0;
+    let $allProducts = $('div[class=items]');
+    //console.log($allProducts);
+    $allProducts.each(function(index,product){
+        let price = $(product).find('p.price').text();
+        let end = price.lastIndexOf('K');
+        price = parseInt(price.substr(0,end));
+        let amount = $(product).find('input#num').val();
+        //console.log(amount); 
+        sum += price * amount;
+    });
+    $('div.orderControll > p').text('Sum: '+sum);
+}
 /*
         
         $clear = $('#clear');
