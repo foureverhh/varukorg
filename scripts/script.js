@@ -28,9 +28,13 @@ $(document).ready(function () {
 
         for(let i = 0; i< response.products.length; i++) {
         $divcontent += "<div class='items'"+"id=p"+(i+1)+">" + 
-                            "<img src=" + response.products[i].image + ">" + 
-                            "<p class='name'>" + response.products[i].name +
-                            "<p class='price'>" + response.products[i].price + " KR</p>" +
+                            "<div class='pImg'>"+
+                                 "<img src=" + response.products[i].image + ">" + 
+                            "</div>"+
+                            "<div class='pInfo'>"+
+                                "<p class='name'>" + response.products[i].name + "</p>" +
+                                "<p class='price'>" + response.products[i].price + "KR</p>" +
+                            "</div>"+
                             "<div class='amount'>"+
                                 "<button class='add' onclick='addNum(this)'>+</button>"+"<input type='text' id='num' placeholder='0'></input>"+"<button class='minus' onclick='minusNum(this)'>-</button>" +
                             "</div>"+
@@ -60,28 +64,24 @@ $(document).ready(function () {
         $('#myList').empty();
         $array = [];
     });
-    
 });
 //Make + button rise the number
 function addNum(obj) {
     let $cartlist = $('#myList');
-    let value = $(obj).next().val();    
+    let value = $(obj).next().val(); 
+    let idCart = $(obj).parents('div[class=items]').attr('id')+'Cart';   
     value++;
     
-    if(value==1){
-  /*       $(obj).parents('div[class=items]').attr('id','p1'); */
+    if(value==1) {
         $itemInCart = $(obj).parents('div[class=items]').clone(true);
-        let idCart = $(obj).parents('div[class=items]').attr('id')+'Cart';
-        $itemInCart.attr('id',idCart);
+        $itemInCart.attr('id',idCart).attr('class','itemsCart');
         $cartlist.append($itemInCart);
     }
 
     $(obj).next().val(value);
-    $itemInCart.find('input#num').val(value);
-    
-    console.log($itemInCart.find('input#num').val()+', '+$itemInCart.find('input#num').attr('id') + ',' +value);
-    
-   
+    $itemInCart = $('div#'+idCart);
+    $itemInCart.find('input#num').val(value); 
+    //console.log($itemInCart.find('input#num').val()+', '+$itemInCart.find('input#num').attr('id') + ',' +value,+ ',' + idCart);  
 }
 
 //Make - button lower the number
@@ -99,9 +99,6 @@ function minusNum(obj){
     if(value == 0 ){
         $('div#'+pIdCart).remove();
     }
-   /*  if(value=0){
-
-    } */
  
     $(obj).prev().val(value);
 }
