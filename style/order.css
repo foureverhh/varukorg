@@ -41,8 +41,7 @@ html, body {
 
 .itemImage {
     width: 40%;
-    flex:1;
-    
+    flex:1; 
 }
 
 .itemName {
@@ -54,15 +53,21 @@ html, body {
 .itemPrice {
     width: 20%;
     flex:1;
-    border:1px solid red;
+    
 }
 
 .itemAmount {
     width: 20%;
     flex:1;
-    border:1px solid red;
+
 }
 
+#sum {
+    text-align: end;
+    font-weight: bolder;
+    font-size: 2em;
+    margin-right: 40px;
+}
 .footer {
     grid-column: 1/-1;
     border: 1px solid green;

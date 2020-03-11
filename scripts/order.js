@@ -3,11 +3,11 @@ $(function() {
     let $time = $('.time span'); 
     let $orderDetails = $('.orderDetails');
     let order = JSON.parse(localStorage.getItem('order'));
-    console.log(order);
+
     $date.text(order.date);
     $time.text(order.time);
     let items = order.items;
-    //items.each(function(item){
+    console.log(order);
     items.map((item) =>{
         let orderItem = '<div class="orderItem">' +
                             '<div class="itemImage">' + 
@@ -24,10 +24,10 @@ $(function() {
                             '</div>' +
                         '<div/>';
         $orderDetails.append(orderItem);  
-        console.info("price" + item.price+ " , amount" + item.amount )              
+       
     });
     let sum = order.sum;
-    $('.content').append('<div>Sum: '+ '<span>' + sum + '</span></div>');
+    $('.content').append('<hr><br><div id="sum">Sum: '+ '<span>' + sum + '</span></div><br>');
     
 });
 

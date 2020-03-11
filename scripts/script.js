@@ -9,30 +9,11 @@ function Order(date,time,items,sum){
 
 $(document).ready(function () {
     $clear = $('#clear');
-    $array=JSON.parse(localStorage.getItem("myList"));
-    $add = $('.add');
-
-
-    //om array är null (localstorage är tom) vi får undefined. Så, vi behöver initiera arrayen
-    if ($array==null)
-            $array = [];
-    
-    //RELOAD kopplad med .ready, så att det händer i början
-
-    for(let i=0; i<$array.length; i++){
-            $name= JSON.parse(localStorage.getItem("myList"))[i].name;
-            $price= JSON.parse(localStorage.getItem("myList"))[i].price;
-            $('#myList').append("<li class='list-group-item'><div>"+$name +"<br>" + $price + "</div></li>");
-        }
-
 
 //fyller sidan från Json
     $.getJSON("data/data.json", function (response, status, xhr) {
         console.log(response.products.length);
-        //console.log(status);
-        //console.log(xhr);
         let $divcontent="";
-
         for(let i = 0; i< response.products.length; i++) {
         $divcontent += "<div class='items'"+"id=p"+(i+1)+">" + 
                             "<div class='pImg'>"+
@@ -53,25 +34,9 @@ $(document).ready(function () {
         
     });
 
-    //det ska bli nåt annat... 
-
-    $("#prova").click(function(){
-       
-        //let $input = $("#input").val();
-        //if ($input !=""){
-            $('#myList').append("<li class='list-group-item'><div>" +"variabel namn<br>variabelpris"   /*$input*/ + "</div></li>");
-            $array.push({name: "variabelnam", price: "variabel pris"});
-            //$('#input').val('');
-            localStorage.setItem("myList", JSON.stringify($array));
-        //}
-
-    });
-
     $clear.click(function(){
-        console.log("klikkade!")
         localStorage.clear();
         $('#myList').empty();
-        $array = [];
     });
 
     $('#confirm').on('click',(function(){
@@ -81,20 +46,23 @@ $(document).ready(function () {
         let items = [];
         let $orders = $('#myList .itemsCart');
         $orders.each(function(index,order){
-            console.info(order)
+            //console.info(order)
             let src = $(order).find("img").attr('src');
             let name = $(order).find('p.name').text();
             let price = $(order).find('p.price').text();
             let amount = $(order).find('input#num').val();
-            console.info(src +", "+name+", "+price+", "+amount);
+            //console.info(src +", "+name+", "+price+", "+amount);
             items.push({img:src, name:name,price:price,amount:amount});
         });
         let sum = $('p#sum').text().substr(5);
+
         let order = new Order(date,time,items,sum);
+        console.info(sum);
         localStorage.setItem('order',JSON.stringify(order));
         window.open('order.html');
     }));
 });
+
 //Make + button rise the number
 function addNum(obj) {
     let $cartlist = $('#myList');
@@ -116,7 +84,6 @@ function addNum(obj) {
     $itemInCart = $('div#'+idCart);
     $itemInCart.find('input#num').val(value); 
     showSumma();
-    //console.log($itemInCart.find('input#num').val()+', '+$itemInCart.find('input#num').attr('id') + ',' +value,+ ',' + idCart);  
 }
 
 //Make - button lower the number
@@ -169,49 +136,14 @@ function minusCartNum(obj) {
 function showSumma (){
     let sum = 0;
     let $allProducts = $('div[class=items]');
-    //console.log($allProducts);
     $allProducts.each(function(index,product){
         let price = $(product).find('p.price').text();
         let end = price.lastIndexOf('K');
         price = parseInt(price.substr(0,end));
         let amount = $(product).find('input#num').val();
-        //console.log(amount); 
+        console.log("price: "+ price +",amount: "+amount); 
         sum += price * amount;
+        console.log("Sum: "+sum);
     });
     $('div.orderControll > p').text('Sum: '+sum);
 }
-
-
-/*
-        
-        $clear = $('#clear');
-        $array=JSON.parse(localStorage.getItem("myList"));
-
-        if ($array==null)
-                $array = [];
-        
-        for(let i=0; i<$array.length; i++){
-                $element= JSON.parse(localStorage.getItem("myList"))[i].name;
-                $('#list').append("<li class='list-group-item'>" + $element + "</li>");
-            }
-
-
-        $add.click(function(){
-            let $input = $("#input").val();
-            if ($input !=""){
-                $('#list').append("<li class='list-group-item'>" + $input + "</li>");
-                $array.push({name: $input, price: 200});
-                $('#input').val('');
-                localStorage.setItem("myList", JSON.stringify($array));
-            }
-
-        });
-
-
-        $clear.click(function(){
-            localStorage.clear();
-            $('#list').empty();
-            $array = [];
-        });
-
-        */
