@@ -31,6 +31,7 @@ $(function () {
                         "</div> ";
             }
         $("#products").html($divcontent);
+    
         console.info($('.items').length);
         //$.each($('.items'),function(index,item){
         $('.items').each(function(index,item){
@@ -49,7 +50,7 @@ $(function () {
                             console.info($("#"+id+'Cart'));
                             $("#"+id+'Cart').find('input#num').val(value);
                         }
-                    }else {               //item is not in Cart
+                    }else if(value !=0 ){               //item is not in Cart and amount is not 0
                         let idCart = id+"Cart";
                         //console.log(idCart);
                         $cartlist = $('#myList');
@@ -60,10 +61,16 @@ $(function () {
                         $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
                         $cartlist.append($itemInCart);
                     }
+                    showSumma();
                 }
             }); 
         });
+
     });
+
+  
+
+  
 
     $clear.click(function(){
         localStorage.clear();
@@ -97,12 +104,18 @@ $(function () {
             window.open('order.html');
         }
     }));
+
+ /*    $('#myList .itemsCart input[type=text]').each(function(item){
+        $(item).on('keyup',function(){
+            console.log($(this).val());
+        });
+    }) */
     //这里为什么不能打印出items的长度
-    console.info($('.items').length);
+    //console.info($('.items').length);
     //input amount by input tag
     //$.each($('.items'),function(index,item){
-    $('.items').each(function(index,item){
-    console.info(index+" , "+$(item));
+    //$('.items').each(function(index,item){
+    //console.info(index+" , "+$(item));
     /* item.find('input#num').on('focus',function(){
         let value = $(this).val()
         let id = $(this).parents('div[class=items]').attr('id');
@@ -123,7 +136,7 @@ $(function () {
         }
         console.log("focus")
     }); */
-    });
+    //});
    
 });
 
@@ -177,6 +190,7 @@ function addCartNum(obj) {
     let end = idCart.lastIndexOf('C');
     let id = idCart.substr(0,end);
     $('div#'+id).find('input#num').val(value);
+    $('div#'+id).find('input#num').val(value);
     showSumma();
 }
 
@@ -192,7 +206,6 @@ function minusCartNum(obj) {
     let idCart = $(obj).parents('div[class=itemsCart]').attr("id");
     let end = idCart.lastIndexOf('C');
     let id = idCart.substr(0,end);
-    $('div#'+id).find('input#num').val(value);
     showSumma();
 }
 
@@ -204,9 +217,9 @@ function showSumma (){
         let end = price.lastIndexOf('K');
         price = parseInt(price.substr(0,end));
         let amount = $(product).find('input#num').val();
-        console.log("price: "+ price +",amount: "+amount); 
+        //console.log("price: "+ price +",amount: "+amount); 
         sum += price * amount;
-        console.log("Sum: "+sum);
+        //console.log("Sum: "+sum);
     });
     $('div.orderControll > p').text('Sum: '+sum);
 }
