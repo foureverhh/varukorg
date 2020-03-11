@@ -1,5 +1,12 @@
 let $itemInCart;
 
+function Order(date,time,items,sum){
+    this.date = date,
+    this.time = time,
+    this.items = items,
+    this.sum = sum
+}
+
 $(document).ready(function () {
     $clear = $('#clear');
     $array=JSON.parse(localStorage.getItem("myList"));
@@ -66,6 +73,27 @@ $(document).ready(function () {
         $('#myList').empty();
         $array = [];
     });
+
+    $('#confirm').on('click',(function(){
+        let  dateInfo = new Date();
+        let date = dateInfo.toLocaleDateString();
+        let time = dateInfo.toLocaleTimeString();
+        let items = [];
+        let $orders = $('#myList .itemsCart');
+        $orders.each(function(index,order){
+            console.info(order)
+            let src = $(order).find("img").attr('src');
+            let name = $(order).find('p.name').text();
+            let price = $(order).find('p.price').text();
+            let amount = $(order).find('input#num').val();
+            console.info(src +", "+name+", "+price+", "+amount);
+            items.push({img:src, name:name,price:price,amount:amount});
+        });
+        let sum = $('p#sum').text().substr(5);
+        let order = new Order(date,time,items,sum);
+        localStorage.setItem('order',JSON.stringify(order));
+        window.open('order.html');
+    }));
 });
 //Make + button rise the number
 function addNum(obj) {
@@ -152,6 +180,8 @@ function showSumma (){
     });
     $('div.orderControll > p').text('Sum: '+sum);
 }
+
+
 /*
         
         $clear = $('#clear');
