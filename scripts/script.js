@@ -37,6 +37,7 @@ $(document).ready(function () {
     $clear.click(function(){
         localStorage.clear();
         $('#myList').empty();
+        $(".items").find("input#num").val('0');
     });
 
     $('#confirm').on('click',(function(){
