@@ -38,6 +38,7 @@ $(document).ready(function () {
         localStorage.clear();
         $('#myList').empty();
         $(".items").find("input#num").val('0');
+        $("p#sum").text("sum: 0");
     });
 
     $('#confirm').on('click',(function(){
@@ -56,11 +57,14 @@ $(document).ready(function () {
             items.push({img:src, name:name,price:price,amount:amount});
         });
         let sum = $('p#sum').text().substr(5);
-
-        let order = new Order(date,time,items,sum);
-        console.info(sum);
-        localStorage.setItem('order',JSON.stringify(order));
-        window.open('order.html');
+        if( $(".itmesCart").length == 0){
+            alert("You have chosen nothing!");
+        } else {
+            let order = new Order(date,time,items,sum);
+            console.info(sum);
+            localStorage.setItem('order',JSON.stringify(order));
+            window.open('order.html');
+        }
     }));
 });
 

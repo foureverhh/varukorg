@@ -28,6 +28,6 @@ $(function() {
     });
     let sum = order.sum;
     $('.content').append('<hr><br><div id="sum">Sum: '+ '<span>' + sum + '</span></div><br>');
-    
+ 
 });
 
