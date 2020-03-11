@@ -7,12 +7,12 @@ function Order(date,time,items,sum){
     this.sum = sum
 }
 
-$(document).ready(function () {
+$(function () {
     $clear = $('#clear');
-
-//fyller sidan från Json
+    $(":input").css('cursor','pointer');
+    //fyller sidan från Json
     $.getJSON("data/data.json", function (response, status, xhr) {
-        console.log(response.products.length);
+        //console.log(response.products.length);
         let $divcontent="";
         for(let i = 0; i< response.products.length; i++) {
         $divcontent += "<div class='items'"+"id=p"+(i+1)+">" + 
@@ -31,7 +31,38 @@ $(document).ready(function () {
                         "</div> ";
             }
         $("#products").html($divcontent);
-        
+        console.info($('.items').length);
+        //$.each($('.items'),function(index,item){
+        $('.items').each(function(index,item){
+            //console.info(index + ", "+$(item).attr('id'));
+            $(item).find('input#num').on('keyup',function(){
+                let value = $(this).val()
+                let id = $(this).parents('div[class=items]').attr('id');
+                if(isNaN(value) || value < 0 || parseInt(value) != value){
+                    alert("Illegal input, only integer larger than 0 is accepted");
+                }else{
+                    console.info(id);
+                    if($("#"+id+'Cart').length){ //if item is already in Cart
+                        if(value == 0){
+                            $("#"+id+'Cart').remove();
+                        }else{
+                            console.info($("#"+id+'Cart'));
+                            $("#"+id+'Cart').find('input#num').val(value);
+                        }
+                    }else {               //item is not in Cart
+                        let idCart = id+"Cart";
+                        //console.log(idCart);
+                        $cartlist = $('#myList');
+                        $itemInCart = $(this).parents('div[class=items]').clone(true);
+                        $itemInCart.attr('id',idCart).attr('class','itemsCart');
+                        //Add onclick property
+                        $itemInCart.find("button:first").attr('onclick','addCartNum(this)');
+                        $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
+                        $cartlist.append($itemInCart);
+                    }
+                }
+            }); 
+        });
     });
 
     $clear.click(function(){
@@ -66,6 +97,34 @@ $(document).ready(function () {
             window.open('order.html');
         }
     }));
+    //这里为什么不能打印出items的长度
+    console.info($('.items').length);
+    //input amount by input tag
+    //$.each($('.items'),function(index,item){
+    $('.items').each(function(index,item){
+    console.info(index+" , "+$(item));
+    /* item.find('input#num').on('focus',function(){
+        let value = $(this).val()
+        let id = $(this).parents('div[class=items]').attr('id');
+        if(isNaN(value) || value <= 0 || parseInt(value) != value){
+            alert("Illegal input, only integer larger than 0 is accepted");
+        }else{
+            if($("#"+id+'Cart')){ //if item is already in Cart
+                $("#"+id+'Cart').find('input#num').val(value);
+            }else {               //item is not in Cart
+                let idCart = id+"Cart";
+                $itemInCart = $(this).parents('div[class=items]').clone(true);
+                $itemInCart.attr('id',idCart).attr('class','itemsCart');
+                //Add onclick property
+                $itemInCart.find("button:first").attr('onclick','addCartNum(this)');
+                $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
+                $cartlist.append($itemInCart);
+            }
+        }
+        console.log("focus")
+    }); */
+    });
+   
 });
 
 //Make + button rise the number
@@ -102,7 +161,6 @@ function minusNum(obj){
         console.log(pIdCart + " , " +$('div#'+pIdCart).attr('id'));
         $('div#'+pIdCart).find('input#num').val(value);
     }
-
     if(value == 0 ){
         $('div#'+pIdCart).remove();
     }
@@ -152,3 +210,5 @@ function showSumma (){
     });
     $('div.orderControll > p').text('Sum: '+sum);
 }
+
+
