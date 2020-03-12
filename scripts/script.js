@@ -13,9 +13,8 @@ $(function () {
     //fyller sidan från Json
     $.getJSON("data/data.json", function (response, status, xhr) {
         //console.log(response.products.length);
-        let $divcontent="";
         for(let i = 0; i< response.products.length; i++) {
-        $divcontent += "<div class='items'"+"id=p"+(i+1)+">" + 
+            let  divcontent = "<div class='items'"+"id=p"+(i+1)+">" + 
                             "<div class='pImg'>"+
                                  "<img src=" + response.products[i].image + ">" + 
                             "</div>"+
@@ -29,11 +28,10 @@ $(function () {
                                 "<button class='minus' onclick='minusNum(this)'>-</button>" +
                             "</div>"+
                         "</div> ";
-            }
-        $("#products").html($divcontent);
+            $("#products").append(divcontent);
+        }
     
         console.info($('.items').length);
-        //$.each($('.items'),function(index,item){
         $('.items').each(function(index,item){
             //console.info(index + ", "+$(item).attr('id'));
             $(item).find('input#num').on('keyup',function(){
@@ -60,17 +58,21 @@ $(function () {
                         $itemInCart.find("button:first").attr('onclick','addCartNum(this)');
                         $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
                         $cartlist.append($itemInCart);
+                        //
                     }
                     showSumma();
                 }
             }); 
-        });
-
+        }); 
     });
 
-  
 
-  
+    //这里为什么不能打印出items的长度
+    //console.info($('.items').length);
+    (function(){
+        console.info($(".items").length);
+        console.info($('div#p1').length);
+    })();
 
     $clear.click(function(){
         localStorage.clear();
@@ -95,7 +97,7 @@ $(function () {
             items.push({img:src, name:name,price:price,amount:amount});
         });
         let sum = $('p#sum').text().substr(5);
-        if( $(".itmesCart").length == 0){
+        if( $(".itemsCart").length == 0){
             alert("You have chosen nothing!");
         } else {
             let order = new Order(date,time,items,sum);
@@ -110,8 +112,7 @@ $(function () {
             console.log($(this).val());
         });
     }) */
-    //这里为什么不能打印出items的长度
-    //console.info($('.items').length);
+ 
     //input amount by input tag
     //$.each($('.items'),function(index,item){
     //$('.items').each(function(index,item){
@@ -190,7 +191,6 @@ function addCartNum(obj) {
     let end = idCart.lastIndexOf('C');
     let id = idCart.substr(0,end);
     $('div#'+id).find('input#num').val(value);
-    $('div#'+id).find('input#num').val(value);
     showSumma();
 }
 
@@ -206,6 +206,7 @@ function minusCartNum(obj) {
     let idCart = $(obj).parents('div[class=itemsCart]').attr("id");
     let end = idCart.lastIndexOf('C');
     let id = idCart.substr(0,end);
+    $('div#'+id).find('input#num').val(value);
     showSumma();
 }
 
