@@ -58,7 +58,23 @@ $(function () {
                         $itemInCart.find("button:first").attr('onclick','addCartNum(this)');
                         $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
                         $cartlist.append($itemInCart);
-                        //
+                        
+                        //Modify amount in Cart
+                        let $itemsCart = $('.itemsCart');
+                        console.log($itemsCart);
+                        $itemsCart.each(function (index,itemCart) {  
+                            $(itemCart).find('#num').on('keyup',function(){
+                                let value = $(this).val();
+                                let idCart = $(this).parents('div.itemsCart').attr("id");
+                                let end = idCart.lastIndexOf('C');
+                                let id = idCart.substr(0,end);
+                                if(value == 0){
+                                    $(this).parents('div.itemsCart').remove();
+                                }
+                                $('div#'+id).find('#num').val(value); 
+                            });
+                        });
+
                     }
                     showSumma();
                 }
