@@ -31,8 +31,6 @@ $(function () {
 
             $("#products").append(divcontent);
         }
-
-    
         console.info($('.items').length);
         $('.items').each(function(index,item){
             //console.info(index + ", "+$(item).attr('id'));
@@ -49,7 +47,7 @@ $(function () {
                             console.info($("#"+id+'Cart'));
                             $("#"+id+'Cart').find('input#num').val(value);
                         }
-                    }else if(value !=0 ){               //item is not in Cart and amount is not 0
+                    }else if(value !=0 ){ //item is not in Cart and amount is not 0
                         let idCart = id+"Cart";
                         //console.log(idCart);
                         $cartlist = $('#myList');
@@ -59,23 +57,8 @@ $(function () {
                         $itemInCart.find("button:first").attr('onclick','addCartNum(this)');
                         $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
                         $cartlist.append($itemInCart);
-                        
                         //Modify amount in Cart
-                        let $itemsCart = $('.itemsCart');
-                        console.log($itemsCart);
-                        $itemsCart.each(function (index,itemCart) {  
-                            $(itemCart).find('#num').on('keyup',function(){
-                                let value = $(this).val();
-                                let idCart = $(this).parents('div.itemsCart').attr("id");
-                                let end = idCart.lastIndexOf('C');
-                                let id = idCart.substr(0,end);
-                                if(value == 0){
-                                    $(this).parents('div.itemsCart').remove();
-                                }
-                                $('div#'+id).find('#num').val(value); 
-                            });
-                        });
-
+                        addKeyupToCart();
                     }
                     showSumma();
                 }
@@ -106,7 +89,7 @@ $(function () {
             items.push({img:src, name:name,price:price,amount:amount});
         });
         let sum = $('p#sum').text().substr(5);
-        if( $(".itemsCart").length == 0){
+        if ( $(".itemsCart").length == 0) {
             alert("You have chosen nothing!");
         } else {
             let order = new Order(date,time,items,sum);
@@ -117,6 +100,24 @@ $(function () {
     }));   
 });
 
+function addKeyupToCart (){
+    let $itemsCart = $('.itemsCart');
+    console.log($itemsCart);
+    $itemsCart.each(function (index, itemCart) {  
+        $(itemCart).find('input#num').on('keyup',function(){
+            let value = $(this).val();
+            console.log("Cart value is " + value);
+            let idCart = $(this).parents('div.itemsCart').attr("id");
+            let end = idCart.lastIndexOf('C');
+            let id = idCart.substr(0, end);
+            if (value == 0) {
+                $(this).parents('div.itemsCart').remove();
+            }
+            $('div#'+id).find('#num').val(value); 
+            console.info("Product value is " + $('div#'+id).find('#num').val());
+        });
+    });
+}
 //Make + button rise the number
 function addNum(obj) {
     let $cartlist = $('#myList');
@@ -126,18 +127,19 @@ function addNum(obj) {
     
     if(value==1) {
         $itemInCart = $(obj).parents('div[class=items]').clone(true);
-        
         $itemInCart.attr('id',idCart).attr('class','itemsCart');
         //Add onclick property
         $itemInCart.find("button:first").attr('onclick','addCartNum(this)');
         $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
         $cartlist.append($itemInCart);
+        addKeyupToCart();
     }
     
     $(obj).next().val(value);
     $itemInCart = $('div#'+idCart);
     $itemInCart.find('input#num').val(value); 
     showSumma();
+   
 }
 
 //Make - button lower the number
@@ -200,5 +202,3 @@ function showSumma (){
     });
     $('div.orderControll > p').text('Sum: '+sum);
 }
-
-
