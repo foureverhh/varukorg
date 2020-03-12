@@ -28,8 +28,10 @@ $(function () {
                                 "<button class='minus' onclick='minusNum(this)'>-</button>" +
                             "</div>"+
                         "</div> ";
+
             $("#products").append(divcontent);
         }
+
     
         console.info($('.items').length);
         $('.items').each(function(index,item){
@@ -40,7 +42,6 @@ $(function () {
                 if(isNaN(value) || value < 0 || parseInt(value) != value){
                     alert("Illegal input, only integer larger than 0 is accepted");
                 }else{
-                    console.info(id);
                     if($("#"+id+'Cart').length){ //if item is already in Cart
                         if(value == 0){
                             $("#"+id+'Cart').remove();
@@ -82,14 +83,6 @@ $(function () {
         }); 
     });
 
-
-    //这里为什么不能打印出items的长度
-    //console.info($('.items').length);
-    (function(){
-        console.info($(".items").length);
-        console.info($('div#p1').length);
-    })();
-
     $clear.click(function(){
         localStorage.clear();
         $('#myList').empty();
@@ -121,40 +114,7 @@ $(function () {
             localStorage.setItem('order',JSON.stringify(order));
             window.open('order.html');
         }
-    }));
-
- /*    $('#myList .itemsCart input[type=text]').each(function(item){
-        $(item).on('keyup',function(){
-            console.log($(this).val());
-        });
-    }) */
- 
-    //input amount by input tag
-    //$.each($('.items'),function(index,item){
-    //$('.items').each(function(index,item){
-    //console.info(index+" , "+$(item));
-    /* item.find('input#num').on('focus',function(){
-        let value = $(this).val()
-        let id = $(this).parents('div[class=items]').attr('id');
-        if(isNaN(value) || value <= 0 || parseInt(value) != value){
-            alert("Illegal input, only integer larger than 0 is accepted");
-        }else{
-            if($("#"+id+'Cart')){ //if item is already in Cart
-                $("#"+id+'Cart').find('input#num').val(value);
-            }else {               //item is not in Cart
-                let idCart = id+"Cart";
-                $itemInCart = $(this).parents('div[class=items]').clone(true);
-                $itemInCart.attr('id',idCart).attr('class','itemsCart');
-                //Add onclick property
-                $itemInCart.find("button:first").attr('onclick','addCartNum(this)');
-                $itemInCart.find("button:last").attr('onclick','minusCartNum(this)');
-                $cartlist.append($itemInCart);
-            }
-        }
-        console.log("focus")
-    }); */
-    //});
-   
+    }));   
 });
 
 //Make + button rise the number
